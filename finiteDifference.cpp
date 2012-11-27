@@ -86,12 +86,10 @@ int main(int argc, char **argv){
 
 	// Finite Volume analysis
 		for (int i=1; i<=x_spaces; i++){
-		   for (int j=0; j<=1; j++){
+		   for (int j=0; j<=2; j++){
 		      Uplus1[i][j] = U[i][j] - delta_t/(areas[i]*delta_x)*(F[i][j]*areas[i] - F[i-1][j]*areas[i-1])+delta_t/areas[i]*Q[i][j];     
 		   }
 		}
-
-
 
 		for (int i=1; i<=x_spaces; i++){
 			row[i]= Uplus1[i][0];
@@ -135,8 +133,13 @@ int main(int argc, char **argv){
 
 
 double Fplus1[x_spaces+1];
+double Fplus2[x_spaces+1];
+double Fplus3[x_spaces+1];
 for (int i=0; i<=x_spaces;i++){
-	Fplus1[i] = F[i][1];
+	
+	Fplus1[i] = (F[i][0]);
+	Fplus2[i] = (F[i][1]);
+	Fplus3[i] = (F[i][2]);
 }
 
 
@@ -147,7 +150,24 @@ for (int i=0; i<=x_spaces;i++){
  printarray (velocity,x_spaces+1, "Velocity");
  printarray (pressure,x_spaces+1, "Pressure");
  printarray (energy,x_spaces+1, "Energy");
+/*
+	cout << "\n";
  printarray (Fplus1,x_spaces+1, "Fplus1");
+	cout << "\n";
+ printarray (Fplus2,x_spaces+1, "Fplus2");
+	cout << "\n";
+ printarray (Fplus3,x_spaces+1, "Fplus3");
+	cout << "\n";
+*/
+/*
+int i=0;
+int j=1;
+cout << "Term: " << (F[i][j]*areas[i] - F[i-1][j]*areas[i-1]) <<endl;
+cout << "Area0: " << areas[0] <<endl;
+cout << "Area1: " << areas[1] <<endl;
+cout << "F[0][0]: " << F[2][1] <<endl;
+cout << "F[1][0]: " << F[3][1] <<endl;
+*/
 
  //printMatrix(U,x_spaces+1,3);
 
