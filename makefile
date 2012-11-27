@@ -12,6 +12,14 @@ finiteVolume:
 	$(CXX) $(CXXFLAGS) -c finiteVolume.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o finiteVolume finiteVolume.o constants.o
 
+read:
+	$(CXX) $(CXXFLAGS) -c read.cpp
+	$(CXX) $(CXXFLAGS) -o read read.o
+
+
+read2:
+	$(CXX) $(CXXFLAGS) -c read2.cpp
+	$(CXX) $(CXXFLAGS) -o read2 read2.o
 
 clean:
 	rm -f quasi
