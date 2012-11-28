@@ -23,9 +23,9 @@ double fluid_gamma =1.4;
 
 double x_lower = 0;
 double x_higher = 10;
-int x_spaces = 10;
+int x_spaces = 100;
 double delta_x = (x_higher - x_lower)/x_spaces;
-double delta_t = 0.001; //(in seconds)
+double delta_t = 0.0001; //(in seconds)
 double PI = 3.141592654;
 
 int delta(float x, float a){
@@ -38,10 +38,11 @@ int delta(float x, float a){
 
 }
 
-
-//double area(double x){
-//   return 10*((-1.0/10.0*pow(x,2)+5)*(delta(x,0)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
-//}
+/*
+double area(double x){
+   return 10*((-1.0/10.0*pow(x,2)+5)*(delta(x,0)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
+}
+*/
 
 //// the derivative of  the area
 //double der_area(double x){
@@ -51,10 +52,10 @@ int delta(float x, float a){
 
 
 //The area profile
-//double area(double x){
-//	double R = 10 + 0.1/(x_higher-x_lower)*x;
-//   return PI*pow(R,2); 
-//}
+double area(double x){
+	double R = 10 + 0.1/(x_higher-x_lower)*x;
+   return PI*pow(R,2); 
+}
 
 //// the derivative of  the area
 //double der_area(double x){
@@ -63,10 +64,14 @@ int delta(float x, float a){
 
 //}
 
+/*
 double area(double x){
 	double R = pow(0.1*(x-5.0),2)+1;
    return R; 
 }
+*/
+
+
 
 // the derivative of  the area
 //double der_area(double x){
