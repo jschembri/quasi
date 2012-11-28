@@ -102,7 +102,7 @@ void printMatrix(double U[],int length,int depth){
 }
 */
 
-
+long double S0 = area(x_lower);
 
 
 

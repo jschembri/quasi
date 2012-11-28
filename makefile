@@ -16,6 +16,9 @@ read:
 	$(CXX) $(CXXFLAGS) -c read.cpp
 	$(CXX) $(CXXFLAGS) -o read read.o
 
+pressure:
+	$(CXX) $(CXXFLAGS) -c pressure.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o pressure pressure.o constants.o
 
 read2:
 	$(CXX) $(CXXFLAGS) -c read2.cpp

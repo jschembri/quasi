@@ -10,6 +10,7 @@ extern double row0;
 extern double u0;
 extern double e0;
 extern double P0;
+extern double S0;
 
 extern double rowinf;
 extern double uinf;
