@@ -14,6 +14,9 @@ int main(int argc, char **argv){
 	//initalize filename
 	ofstream myfile;
 	ofstream pressureFile;
+	ofstream areasFile;
+
+	areasFile.open("knownAreas.txt");
 	myfile.open("finiteVolume.txt");
 	pressureFile.open("Pressure.txt");
 
@@ -174,8 +177,9 @@ cout << "F[1][0]: " << F[3][1] <<endl;
  //printMatrix(U,x_spaces+1,3);
 	for (int i=0; i<=x_spaces; i++){
 		pressureFile << pressure[i] << endl;
+		areasFile << areas[i] << endl;
 	}
-
+	areasFile.close();
 	myfile.close();
 	pressureFile.close();
 	return 0; 

@@ -1,0 +1,4 @@
+# Listing all ignored files
+*.o
+*.txt
+
