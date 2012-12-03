@@ -13,7 +13,9 @@ int main(int argc, char **argv){
 
 	//initalize filename
 	ofstream myfile;
+	ofstream pressureFile;
 	myfile.open("finiteVolume.txt");
+	pressureFile.open("Pressure.txt");
 
    double endtime = atof(argv[1]);
    myfile << "The END time is: "<<endtime << endl;
@@ -170,9 +172,13 @@ cout << "F[1][0]: " << F[3][1] <<endl;
 */
 
  //printMatrix(U,x_spaces+1,3);
+	for (int i=0; i<=x_spaces; i++){
+		pressureFile << pressure[i] << endl;
+	}
 
- myfile.close();
- return 0; 
+	myfile.close();
+	pressureFile.close();
+	return 0; 
 
 
 }

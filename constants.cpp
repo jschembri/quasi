@@ -38,10 +38,18 @@ int delta(float x, float a){
 
 }
 
+<<<<<<< HEAD
 
 double area(double x){
    return 10*((-1.0/10.0*pow(x,2)+5)*(delta(x,0)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
 }
+=======
+/*
+double area(double x){
+   return 10*((-1.0/10.0*pow(x,2)+5)*(delta(x,0)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
+}
+*/
+>>>>>>> 6a7cfb924453230b4b24d5ec6a1d5ae1ef939766
 
 //// the derivative of  the area
 //double der_area(double x){
@@ -51,10 +59,10 @@ double area(double x){
 
 
 //The area profile
-//double area(double x){
-//	double R = 10 + 0.1/(x_higher-x_lower)*x;
-//   return PI*pow(R,2); 
-//}
+double area(double x){
+	double R = 10 + 0.1/(x_higher-x_lower)*x;
+   return PI*pow(R,2); 
+}
 
 //// the derivative of  the area
 //double der_area(double x){
@@ -63,10 +71,21 @@ double area(double x){
 
 //}
 
+<<<<<<< HEAD
 //double area(double x){
 //	double R = pow(0.1*(x-5.0),2)+1;
 //   return R; 
 //}
+=======
+/*
+double area(double x){
+	double R = pow(0.1*(x-5.0),2)+1;
+   return R; 
+}
+*/
+
+
+>>>>>>> 6a7cfb924453230b4b24d5ec6a1d5ae1ef939766
 
 // the derivative of  the area
 //double der_area(double x){
@@ -102,7 +121,7 @@ void printMatrix(double U[],int length,int depth){
 }
 */
 
-
+long double S0 = area(x_lower);
 
 
 
