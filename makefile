@@ -16,6 +16,10 @@ analytic:
 	$(CXX) $(CXXFLAGS) -c analytic.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o analytic analytic.o constants.o
 
+flux:
+	$(CXX) $(CXXFLAGS) -c flux.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o flux flux.o constants.o
+
 read:
 	$(CXX) $(CXXFLAGS) -c read.cpp
 	$(CXX) $(CXXFLAGS) -o read read.o

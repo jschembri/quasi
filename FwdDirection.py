@@ -43,13 +43,22 @@ for key,value in dict.items():
 
 
 
-	plt.subplot(211)
+	plt.subplot(411)
 	plt.plot(x_values, y_mach_values, ms=12, label='%s' % key,linewidth=4)
 	plt.ylabel('Mach')
 
-	plt.subplot(212)
+	plt.subplot(412)
 	plt.plot(x_values, y_area_values, ms=12, label='area',linewidth=4)
 	plt.ylabel('Area')
+
+	plt.subplot(413)
+	plt.plot(x_values, y_values, ms=12, label='density',linewidth=4)
+	plt.ylabel('Density')
+
+	plt.subplot(414)
+	plt.plot(x_values, y_pressure_values, ms=12, label='Pressure',linewidth=4)
+	plt.ylabel('Pressure')
+	plt.xlabel('X-Axes')
 
 
 data= subprocess.Popen('./analytic', shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()
@@ -61,14 +70,14 @@ y_analytic_values = data[data.index('Mach Start')+1:data.index("Mach End")]
 for i in range(0,len(y_analytic_values)):
 	y_analytic_values[i] = float(y_analytic_values[i])
 
-plt.subplot(211)
+plt.subplot(411)
 plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
 plt.ylabel('Mach Number')
 
 
 
 plt.legend()
-plt.xlabel('X-Axes')
+
 
 
 

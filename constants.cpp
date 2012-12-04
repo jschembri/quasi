@@ -8,7 +8,7 @@
 using namespace std;
 
 double row0 = 1.2;
-double u0 = 100;
+double u0 = 129;
 double P0 = 100000;
 double fluid_gamma =1.4;
 
@@ -17,9 +17,9 @@ double fluid_gamma =1.4;
 
 double x_lower = 0;
 double x_higher = 10;
-int x_spaces = 10;
+int x_spaces = 100;
 double delta_x = (x_higher - x_lower)/x_spaces;
-double delta_t = 0.0001; //(in seconds)
+double delta_t = 0.001; //(in seconds)
 double PI = 3.141592654;
 double c_v = 718;
 
@@ -38,11 +38,11 @@ int delta(float x, float a){
 //   return 10*((-1.0/10.0*pow(x,2)+5)*(delta(x,-1)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
 //}
 
-/*
+
 double area(double x){
-   return 10*((-1.0/10.0*pow(x,2)+5)*(delta(x,0)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
+   return 20*((-1.0/10.0*pow(x,2)+5)*(delta(x,0)-delta(x,4)) +(0.4*pow((x-5),2)+3)*(delta(x,4)-delta(x,6)) +  (-1.0/10.0*pow((x-10),2)+5)*(delta(x,6))); 
 }
-*/
+
 
 //// the derivative of  the area
 //double der_area(double x){
@@ -52,10 +52,10 @@ double area(double x){
 
 
 //The area profile
-double area(double x){
-	double R = 10 + 1/(x_higher-x_lower)*x;
-   return PI*pow(R,2); 
-}
+//double area(double x){
+//	return 10 - 1.0/(x_higher-x_lower)*x;
+//   //return PI*pow(R,2); 
+//}
 
 //// the derivative of  the area
 //double der_area(double x){
@@ -121,13 +121,13 @@ double func(double M){
 }
 
 double binary_func(double M, double A_ratio){
-	return func(M) - pow(A_ratio,2);
+	return func(M) - pow(A_ratio,2.0);
 }
 
 double bisection_search(double umin, double umax, double A_ratio){
 	double uguess, ymin, ymax, yguess;
 	while (umax-umin>0.0001){
-		uguess = (umin + umax)/2;
+		uguess = (umin + umax)/2.0;
 
 		ymin = -binary_func(umin,A_ratio);
 		yguess = -binary_func(uguess,A_ratio);
@@ -148,6 +148,32 @@ double bisection_search(double umin, double umax, double A_ratio){
 
 	return uguess;
 }
+
+double pbisection_search(double umin, double umax, double A_ratio){
+	double uguess, ymin, ymax, yguess;
+	while (umax-umin>0.0001){
+		uguess = (umin + umax)/2.0;
+
+		ymin = binary_func(umin,A_ratio);
+		yguess = binary_func(uguess,A_ratio);
+		ymax = binary_func(umax,A_ratio);
+
+		if (yguess > 0){
+			umax = uguess;
+		} else if (yguess < 0){
+			umin = uguess;
+		} else if (yguess == 0){
+			return uguess;
+
+		}
+	//		cout <<"ymin : " << ymin  << endl;
+	//		cout <<"yGuess: " << yguess << endl;
+	//		cout <<"ymax : " << ymax  << endl;
+	}
+
+	return uguess;
+}
+
 
 
 
