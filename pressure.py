@@ -22,6 +22,12 @@ y_area_values = data[data.index('Area Start')+1:data.index("Area End")]
 for i in range(0,len(y_area_values)):
    y_area_values[i] = float(y_area_values[i])
 
+y_known_values = data[data.index('Known Areas Start')+1:data.index("Known Areas End")]
+for i in range(0,len(y_known_values)):
+   y_known_values[i] = float(y_known_values[i])
+
+
+
 
 
 y_pressure_values = data[data.index('Pressure Start')+1:data.index("Pressure End")]
@@ -35,7 +41,10 @@ plt.plot(x_values, y_pressure_values, mfc='red', ms=12, label='Velocity',linewid
 plt.ylabel('Pressure')
 
 plt.subplot(212)
-plt.plot(x_values, y_area_values, mfc='red', ms=12, label='Area',linewidth=4)
+plt.plot(x_values, y_area_values, mfc='red', ms=12, label='Calculated',linewidth=4)
+plt.plot(x_values, y_known_values, mfc='red', ms=12, label='Actual',linewidth=4)
+plt.legend()
+
 plt.ylabel('Area')
 
 

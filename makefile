@@ -12,6 +12,10 @@ finiteVolume:
 	$(CXX) $(CXXFLAGS) -c finiteVolume.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o finiteVolume finiteVolume.o constants.o
 
+analytic:
+	$(CXX) $(CXXFLAGS) -c analytic.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o analytic analytic.o constants.o
+
 read:
 	$(CXX) $(CXXFLAGS) -c read.cpp
 	$(CXX) $(CXXFLAGS) -o read read.o

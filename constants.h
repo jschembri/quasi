@@ -29,6 +29,9 @@ extern int delta(float x, float a);
 // Equations
 double area(double x);
 double der_area(double x);
+double func(double M);
+double binary_func(double M, double A_ratio);
+double bisection_search(double umin, double umax, double A_ratio);
 void printarray (double arg[], int length, string input);
 //void printMatrix(double U[],int length,int depth);
 

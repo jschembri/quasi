@@ -12,7 +12,7 @@ if len(argv) < 2:
 else:
    script, calculated_time = argv
 
-dict = {"FiniteVolume": './finiteVolume', "FiniteDifference": './finiteDifference'}
+dict = {"FiniteVolume": './finiteVolume'}
 for key,value in dict.items():
 
 	data= subprocess.Popen('%s %s' % (value, calculated_time), shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()
@@ -36,25 +36,35 @@ for key,value in dict.items():
 	for i in range(0,len(y_pressure_values)):
 		y_pressure_values[i] = float(y_pressure_values[i])
 
+	y_mach_values = data[data.index('Mach Start')+1:data.index("Mach End")]
+	for i in range(0,len(y_mach_values)):
+		y_mach_values[i] = float(y_mach_values[i])
 
 
 
-	plt.subplot(411)
-	plt.plot(x_values, y_area_values, ms=12, label='%s' % key,linewidth=4)
+
+	plt.subplot(211)
+	plt.plot(x_values, y_mach_values, ms=12, label='%s' % key,linewidth=4)
+	plt.ylabel('Mach')
+
+	plt.subplot(212)
+	plt.plot(x_values, y_area_values, ms=12, label='area',linewidth=4)
 	plt.ylabel('Area')
 
 
-	plt.subplot(412)
-	plt.plot(x_values, y_values, ms=12, label='%s' % key,linewidth=4)
-	plt.ylabel('Density')
+data= subprocess.Popen('./analytic', shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()
+data = data[0].split(",")
+x_analytic_values = data[data.index('X Value Start')+1:data.index("X Value End")]
+for i in range(0,len(x_analytic_values)):
+	x_analytic_values[i] = float(x_analytic_values[i])
+y_analytic_values = data[data.index('Mach Start')+1:data.index("Mach End")]
+for i in range(0,len(y_analytic_values)):
+	y_analytic_values[i] = float(y_analytic_values[i])
 
-	plt.subplot(413)
-	plt.plot(x_values, y_velocity_values, ms=12, label='%s' % key,linewidth=4)
-	plt.ylabel('Velocity')
+plt.subplot(211)
+plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
+plt.ylabel('Mach Number')
 
-	plt.subplot(414)
-	plt.plot(x_values, y_pressure_values, ms=12, label='%s' % key,linewidth=4)
-	plt.ylabel('Pressure')
 
 
 plt.legend()

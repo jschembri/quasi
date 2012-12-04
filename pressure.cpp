@@ -20,6 +20,7 @@ int main(int argc, char **argv){
    double e0;
    e0 = P0/(fluid_gamma-1) + row0*pow(u0,2)/2.0;
 
+	double knownAreas[x_spaces+1];
 
 	row[0] = row0;
 	velocity[0] = u0;
@@ -30,7 +31,10 @@ int main(int argc, char **argv){
 	long double i;
 	int j=0;
    char *inname = "Pressure.txt";
+   char *pointer_Areas = "knownAreas.txt";
+
    ifstream infile(inname);
+
 	double pressure[x_spaces+1];
    if (!infile) {
 	   cout << "There was a problem opening file "
@@ -44,7 +48,12 @@ int main(int argc, char **argv){
 		pressure[j] = i;
 	   j +=1;
    }
-
+   ifstream areafile(pointer_Areas);
+	j=0;
+   while (areafile >> i) {
+		knownAreas[j] = i;
+	   j +=1;
+   }
 
    double x_value[x_spaces+1];
    for (int i=0; i<=x_spaces; i++){
@@ -69,6 +78,7 @@ int main(int argc, char **argv){
  printarray (pressure,x_spaces+1, "Pressure");
  printarray (energy,x_spaces+1, "Energy");
 	printarray (areas,x_spaces+1, "Area");
+	printarray (knownAreas,x_spaces+1, "Known Areas");
 	return 0; 
 
 
