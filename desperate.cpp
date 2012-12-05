@@ -13,11 +13,11 @@ int main(int argc, char **argv){
 
    double endtime = atof(argv[1]);
    double time = 0;
-   double row[x_spaces+1];
-   double velocity[x_spaces+1];
-   double energy[x_spaces+1];
-   double epsilon[x_spaces+1];
-   double pressure[x_spaces+1];
+   double row[x_spaces+2];
+   double velocity[x_spaces+2];
+   double energy[x_spaces+2];
+   double epsilon[x_spaces+2];
+   double pressure[x_spaces+2];
    double Mach[x_spaces+1];
    double alpha = 0.1;
    double e0, FplusHalf,FminusHalf;
@@ -28,16 +28,21 @@ int main(int argc, char **argv){
 
 	Mach[0] = u0 / pow(fluid_gamma*P0/row0,0.5);
    // Creating x value
-   double x_value[x_spaces+1];
-   for (int i=0; i<=x_spaces; i++){
-      x_value[i] = x_lower + delta_x*i;
+   double x_value[x_spaces+2];
+   for (int i=0; i<=x_spaces+1; i++){
+		if (i==x_spaces+1){	
+	      x_value[i] = x_value[i-1];
+		}else{
+      	x_value[i] = x_lower + delta_x*i;
+		}
+
    }
 
    // U Vector
-	double Uplus1[x_spaces+1][3];
-   double  U[x_spaces+1][3];
+	double Uplus1[x_spaces+2][3];
+   double  U[x_spaces+2][3];
 
-   for (int i=0;i<=x_spaces;i++){
+   for (int i=0;i<=x_spaces+1;i++){
          U[i][0] = row0;
          U[i][1] = row0*u0;
          U[i][2] = e0; 
@@ -45,8 +50,8 @@ int main(int argc, char **argv){
 
 
    // F Vector
-   double  F[x_spaces+1][3];
-   for (int i=0;i<=x_spaces;i++){
+   double  F[x_spaces+2][3];
+   for (int i=0;i<=x_spaces+1;i++){
          F[i][0] = row0*u0;
          F[i][1] = row0*pow(u0,2) + P0;
          F[i][2] = (e0+P0)*u0;
@@ -58,12 +63,12 @@ int main(int argc, char **argv){
 		areas[i] = area(x_value[i]);
 	}
 
-	double volumes[x_spaces+1];
-	for(int i=0;i<=x_spaces;i++){
+	double volumes[x_spaces+2];
+	for(int i=0;i<=x_spaces+1;i++){
 		if (i == 0) {
 			volumes[i] = 0.5*delta_x*(area(x_value[i])+area(x_value[i] + delta_x));
 		}else if (i==x_spaces){
-			volumes[i] = 0.5*delta_x*(area(x_value[i])+area(x_value[i] - delta_x));
+			volumes[i] = volumes[i-1];
 		}else{
 			volumes[i] = delta_x/2.0*(area(x_value[i] + delta_x/2.0) + area(x_value[i] - delta_x/2.0));
 		}
@@ -100,16 +105,9 @@ int main(int argc, char **argv){
 	// Finite Volume analysis
 		for (int i=1; i<=x_spaces; i++){
 		   for (int j=0; j<=2; j++){
-				if (i==x_spaces){
-					FplusHalf = 0.5*(F[i][j] + F[i][j])-0.5*alpha*(velocity[i]-velocity[i]);
-				}else{
-					FplusHalf = 0.5*(F[i+1][j] + F[i][j])-0.5*alpha*(velocity[i+1]-velocity[i]);
-				}
-				FminusHalf = 0.5*(F[i][j] + F[i-1][j])-0.5*(velocity[i]-velocity[i-1]);
-				if (i==x_spaces){
- 					Uplus1[i][j] = U[i][j] - delta_t/volumes[i]*(FplusHalf*area(x_value[i])- FminusHalf*area(x_value[i] -delta_x/2.0))+delta_t/volumes[i]*Q[i][j];
-				}else{
- 					Uplus1[i][j] = U[i][j] - delta_t/volumes[i]*(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))+delta_t/volumes[i]*Q[i][j];
+				FplusHalf = 0.5*(F[i+1][j] + F[i][j])-0.5*alpha*(velocity[i+1]-velocity[i]);
+				FminusHalf = 0.5*(F[i][j] + F[i-1][j])-0.5*(velocity[i]-velocity[i-1]);					
+ 				Uplus1[i][j] = U[i][j] - delta_t/volumes[i]*(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))+delta_t/volumes[i]*Q[i][j];
 				}
 		          
 		   }

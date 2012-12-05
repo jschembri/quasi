@@ -39,9 +39,9 @@ int main(int argc, char **argv){
 	Mach[0] = M0;
    for (int i=1; i<=x_spaces; i++){
 		if (i <= x_spaces/2.0){
-			Mach[i] = bisection_search(0.001, 1, areas[i]/A_star);
+			Mach[i] = pbisection_search(1.1, 10, areas[i]/A_star);
 		}else{
-			Mach[i] = pbisection_search(1.00001, 5, areas[i]/A_star);
+			Mach[i] = pbisection_search(1.1, 10, areas[i]/A_star);
 		}
 	}
 
