@@ -9,8 +9,8 @@ using namespace std;
 
 double row0 = 1.2;
 //double u0 = 129;
-double u0 = 1000;
-double P0 = 100000;
+double u0 = 3000;
+double P0 = 1000000;
 double fluid_gamma =1.4;
 
 
@@ -18,9 +18,9 @@ double fluid_gamma =1.4;
 
 double x_lower = 0;
 double x_higher = 10;
-int x_spaces = 100;
+int x_spaces = 25;
 double delta_x = (x_higher - x_lower)/x_spaces;
-double delta_t = 0.00001; //(in seconds)
+double delta_t = 0.0000005; //(in seconds)
 double PI = 3.141592654;
 //double c_v = 718;
 
@@ -46,7 +46,8 @@ double area(double x){
 */
 
 double area(double x){
-   return 2+cos(2*PI*x/10.0); 
+   return 2+cos(2*PI*x/10.0)*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,-10)-delta(x,0))+(delta(x,x_higher+0.000001)-delta(x,20));
+	//return 3;
 }
 
 
