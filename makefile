@@ -20,6 +20,9 @@ flux:
 	$(CXX) $(CXXFLAGS) -c flux.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o flux flux.o constants.o
 
+newFlux:
+	$(CXX) $(CXXFLAGS) -c newFlux.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o newFlux newFlux.o constants.o
 read:
 	$(CXX) $(CXXFLAGS) -c read.cpp
 	$(CXX) $(CXXFLAGS) -o read read.o

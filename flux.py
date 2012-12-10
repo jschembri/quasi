@@ -12,7 +12,7 @@ if len(argv) < 2:
 else:
    script, calculated_time = argv
 
-dict = {"Flux": './flux'}
+dict = {"Flux": './newFlux'}
 for key,value in dict.items():
 
 	data= subprocess.Popen('%s %s' % (value, calculated_time), shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()

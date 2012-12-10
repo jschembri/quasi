@@ -2,30 +2,12 @@
 //Jeremy Schembri on Nov 8, 2012
 #include <iostream>
 #include <math.h>
-#include <cmath>
 #include <string>
 #include <cstdlib> 
 #include <fstream>
 #include "constants.h"
 
 using namespace std;
-
-double max_residual( double guess[],double answer[], int length){
-	double max;
-	for(int i=0;i<length;i++){
-		if (i==0){
-			max = abs(answer[i]-guess[i] );
-		}
-
-		if (answer[i]-guess[i] > max){
-			max = abs(answer[i]-guess[i] );
-		}
-	}
-	return max;
-}
-
-
-
 
 int main(int argc, char **argv){
 
@@ -38,13 +20,9 @@ int main(int argc, char **argv){
    double epsilon[x_spaces+2];
    double pressure[x_spaces+2];
    double Mach[x_spaces+2];
-   double temp_Mach[x_spaces+1];
    double areas[x_spaces+2];
    double alpha = 100;
    double e0, FplusHalf,FminusHalf;
-	int iteration = 0;
-	int max_iterations = endtime/delta_t;
-	int iteration_list[max_iterations+1];
 
    e0 = P0/(fluid_gamma-1.0) + row0*pow(u0,2)/2.0;
 
@@ -73,30 +51,6 @@ int main(int argc, char **argv){
 
    }
 
-for(int i=0;i<=x_spaces+1;i++){
-	areas[i] = area(x_value[i]);
-}
-
-// Putting in the real Mach Equation
-// ---------------------------------
-   double M0,c;
-	double real_Mach[x_spaces+1], residual_list[x_spaces+1];
-	c = pow(fluid_gamma*P0/row0,0.5); 
-	M0 = u0 /c;
-	double A_star = pow((pow(S0,2)/func(M0)),0.5);
-
-
-	real_Mach[0] = M0;
-
-   for (int i=1; i<=x_spaces; i++){
-		if (i <= x_spaces/2.0){
-			real_Mach[i] = pbisection_search(1.1, 10, areas[i]/A_star);
-		}else{
-			real_Mach[i] = pbisection_search(1.1, 10, areas[i]/A_star);
-		}
-	}
-//------------------
-//end of added script
 
 // loop and work
 
@@ -126,15 +80,9 @@ for(int i=0;i<=x_spaces+1;i++){
 		pressure[i] = (fluid_gamma -1.0)*row[i]*epsilon[i];
 	}
 
-for (int i=0; i<=x_spaces; i++){
-	temp_Mach[i] = velocity[i] / pow(fluid_gamma*pressure[i]/row[i],0.5);
-}
-iteration_list[iteration] = iteration;
-residual_list[iteration] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 
 
-	while(time < endtime){
-		
+	while(time < endtime){	
 	// Finite Volume analysis
 		for (int i=1; i<=x_spaces; i++){
 		   for (int j=0; j<=2; j++){
@@ -186,14 +134,6 @@ residual_list[iteration] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 			}
 
 		}
-	//added code
-	for (int i=0; i<=x_spaces; i++){
-		temp_Mach[i] = velocity[i] / pow(fluid_gamma*pressure[i]/row[i],0.5);
-	}
-	iteration_list[iteration] = iteration;
-	residual_list[iteration] = max_residual(temp_Mach, real_Mach,x_spaces+1);
-	iteration += 1;
-	//end of added code
 		time += delta_t;
 	}
 
@@ -201,11 +141,10 @@ residual_list[iteration] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 for (int i=0; i<=x_spaces; i++){
 	Mach[i] = velocity[i] / pow(fluid_gamma*pressure[i]/row[i],0.5);
 }
+for(int i=0;i<=x_spaces+1;i++){
+	areas[i] = area(x_value[i]);
+}
 
-
-
-
- printarray (real_Mach,x_spaces+1, "real_Mach");
  printarray (x_value,x_spaces+1, "X Value");
  printarray (row,x_spaces+1, "Y Value");
  printarray (areas,x_spaces+1, "Area");
