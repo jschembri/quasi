@@ -16,9 +16,23 @@ analytic:
 	$(CXX) $(CXXFLAGS) -c analytic.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o analytic analytic.o constants.o
 
+analytic_subsonic:
+	$(CXX) $(CXXFLAGS) -c analytic_subsonic.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o analytic_subsonic analytic_subsonic.o constants.o
+
+
+subsonic:
+	$(CXX) $(CXXFLAGS) -c subsonic.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o subsonic subsonic.o constants.o
+
 flux:
 	$(CXX) $(CXXFLAGS) -c flux.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o flux flux.o constants.o
+
+flux:
+	$(CXX) $(CXXFLAGS) -c subsonic.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o subsonic subsonic.o constants.o
+
 
 newFlux:
 	$(CXX) $(CXXFLAGS) -c newFlux.cpp constants.cpp

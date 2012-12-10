@@ -11,6 +11,7 @@ double row0 = 10;
 //double u0 = 129;
 double u0 = 1000;
 double P0 = 500000;
+double Pend = 1000000;
 double fluid_gamma =1.4;
 
 
@@ -18,7 +19,7 @@ double fluid_gamma =1.4;
 
 double x_lower = 0;
 double x_higher = 10;
-int x_spaces = 100;
+int x_spaces = 10;
 double delta_x = (x_higher - x_lower)/x_spaces;
 double delta_t = 0.0000005; //(in seconds)
 double PI = 3.141592654;
@@ -45,14 +46,16 @@ double area(double x){
 }
 */
 
-//double area(double x){
-//   return 2+cos(2*PI*x/10.0)*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,-10)-delta(x,0))+(delta(x,x_higher+0.000001)-delta(x,20));
+double area(double x){
+   return 2+cos(2*PI*x/10.0)*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,-10)-delta(x,0))+(delta(x,x_higher+0.000001)-delta(x,20));
 //	//return 3;
-//}
+}
 
+/*
 double area(double x){
    return 2+1.0/(x_higher-x_lower)*x*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,x_higher+0.000001)-delta(x,20));
 }
+*/
 
 
 
@@ -191,6 +194,6 @@ double pbisection_search(double umin, double umax, double A_ratio){
 
 
 double S0 = area(x_lower);
-
+double ustar = bisection_search(0.001, 1, 3);
 
 

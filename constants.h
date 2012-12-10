@@ -11,11 +11,13 @@ extern double u0;
 extern double e0;
 extern double P0;
 extern double S0;
+extern double ustar;
 
 extern double rowinf;
 extern double uinf;
 extern double einf;
 extern double Pinf;
+extern double Pend;
 extern double fluid_gamma;
 
 
