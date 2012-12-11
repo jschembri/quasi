@@ -69,14 +69,30 @@ for i in range(0,len(x_analytic_values)):
 y_analytic_values = data[data.index('Mach Start')+1:data.index("Mach End")]
 for i in range(0,len(y_analytic_values)):
 	y_analytic_values[i] = float(y_analytic_values[i])
-
-
+y_density_values = data[data.index('Density Start')+1:data.index("Density End")]
+for i in range(0,len(y_density_values)):
+	y_density_values[i] = float(y_density_values[i])
+y_pressure_values = data[data.index('Pressure Start')+1:data.index("Pressure End")]
+for i in range(0,len(y_pressure_values)):
+	y_pressure_values[i] = float(y_pressure_values[i])
 
 
 plt.subplot(411)
 plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
 plt.ylabel('Mach Number')
 plt.legend()
+
+plt.subplot(413)
+plt.plot(x_analytic_values, y_density_values, ms=12, label="Density",linewidth=4)
+plt.ylabel('Density')
+plt.legend()
+
+plt.subplot(414)
+plt.plot(x_analytic_values, y_pressure_values, ms=12, label="Pressure",linewidth=4)
+plt.ylabel('Pressure')
+plt.legend()
+
+
 
 
 show()

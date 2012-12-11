@@ -39,7 +39,7 @@ int main(int argc, char **argv){
    double pressure[x_spaces+3];
    double Mach[x_spaces+1];
    double areas[x_spaces+3];
-   double alpha = 0.1;
+   double alpha = 80;
    double e0, FplusHalf,FminusHalf;
 
    double temp_Mach[x_spaces+3];
@@ -48,8 +48,8 @@ int main(int argc, char **argv){
 	//double iteration_list[max_iterations+1];
 	//double residual_list[max_iterations+1];
 
-	double ustar =  Mstar*pow(fluid_gamma*Pend/row0,0.5);
-   e0 = Pend/(fluid_gamma-1.0) + row0*pow(ustar,2)/2.0;
+	double uend =  Mstart*pow(fluid_gamma*Pend/row0,0.5);
+   e0 = Pend/(fluid_gamma-1.0) + row0*pow(uend,2)/2.0;
 	
 
    // Creating x value
@@ -71,11 +71,11 @@ int main(int argc, char **argv){
 
    for (int i=0;i<=x_spaces+2;i++){
          U[i][0] = row0;
-         U[i][1] = row0*ustar;
+         U[i][1] = row0*uend;
          U[i][2] = e0; 
-         F[i][0] = row0*ustar;
-         F[i][1] = row0*pow(ustar,2) + Pend;
-         F[i][2] = (e0+Pend)*ustar;
+         F[i][0] = row0*uend;
+         F[i][1] = row0*pow(uend,2) + Pend;
+         F[i][2] = (e0+Pend)*uend;
 
    }
 for(int i=0;i<=x_spaces+2;i++){
@@ -84,9 +84,9 @@ for(int i=0;i<=x_spaces+2;i++){
 // Putting in the real Mach Equation
 // ---------------------------------
 	double real_Mach[x_spaces+3];
-	double A_star = pow((pow(S0,2)/func(Mstar)),0.5);
+	double A_star = pow((pow(S0,2)/func(Mstart)),0.5);
 
-	real_Mach[0] = Mstar;
+	real_Mach[0] = Mstart;
    for (int i=1; i<=x_spaces+2; i++){
 		if (i <= x_spaces/2.0+1){
 			real_Mach[i] = bisection_search(0, 1.0, areas[i]/A_star);
@@ -154,13 +154,19 @@ for (int i=0; i<=x_spaces; i++){
 				velocity[i] = Uplus1[i][1]/row0;
 				energy[i] = Uplus1[i][2];
 				epsilon[i] = energy[i]/row0 - pow(velocity[i],2)/2.0;
-				pressure[i] = row0*pow(velocity[i]/Mstar,2)/fluid_gamma;
+				pressure[i] = (fluid_gamma -1.0)*row[i]*epsilon[i];
+				velocity[i] = Mstart*pow(fluid_gamma*pressure[i]/row[i],0.5);
+				epsilon[i] = energy[i]/row0 - pow(velocity[i],2)/2.0;
+				pressure[i] = (fluid_gamma -1.0)*row[i]*epsilon[i];
 			}else if (i==0){
 				row[i]= row0;
 				velocity[i] = Uplus1[i+1][1]/row0;
 				energy[i] = Uplus1[i+1][2];
 				epsilon[i] = energy[i]/row0 - pow(velocity[i],2)/2.0;
-				pressure[i] = row0*pow(velocity[i]/Mstar,2)/fluid_gamma;
+				pressure[i] = (fluid_gamma -1.0)*row[i]*epsilon[i];
+				velocity[i] = Mstart*pow(fluid_gamma*pressure[i]/row[i],0.5);
+				epsilon[i] = energy[i]/row0 - pow(velocity[i],2)/2.0;
+				pressure[i] = (fluid_gamma -1.0)*row[i]*epsilon[i];
 			}else{
 				row[i]= Uplus1[i][0];
 				velocity[i] = Uplus1[i][1]/row[i];
@@ -220,7 +226,7 @@ for (int i=0; i<=x_spaces; i++){
 for (int i=0; i<=x_spaces+2; i++){
 	Mach[i] = velocity[i] / pow(fluid_gamma*pressure[i]/row[i],0.5);
 }
- //cout << "double ustar = pbisection_search(0.001, 1, 3): " << bisection_search(0.001, 1, 3) <<endl;
+ //cout << "double uend = pbisection_search(0.001, 1, 3): " << bisection_search(0.001, 1, 3) <<endl;
 
  printarray (x_value,x_spaces+3, "X Value");
  printarray (row,x_spaces+3, "Y Value");
@@ -230,6 +236,7 @@ for (int i=0; i<=x_spaces+2; i++){
  printarray (energy,x_spaces+3, "Energy");
  printarray (volumes,x_spaces+3, "Volumes");
  printarray (Mach,x_spaces+3, "Mach"); 
+ printarray (velocity,x_spaces+3, "Velocity"); 
  //printarray (real_Mach,x_spaces+1, "Real Mach");
  //printarray (temp_Mach,x_spaces+1, "temp Mach");
  //printarray (residual_list,max_iterations, "residual_list");
