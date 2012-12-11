@@ -7,11 +7,11 @@
 
 using namespace std;
 
-double row0 = 10;
+double row0 = 3;
 //double u0 = 129;
 double u0 = 1000;
 double P0 = 500000;
-double Pend = 1000000;
+double Pend = 100000;
 double fluid_gamma =1.4;
 
 
@@ -19,7 +19,7 @@ double fluid_gamma =1.4;
 
 double x_lower = 0;
 double x_higher = 10;
-int x_spaces = 10;
+int x_spaces = 100;
 double delta_x = (x_higher - x_lower)/x_spaces;
 double delta_t = 0.0000005; //(in seconds)
 double PI = 3.141592654;
@@ -194,6 +194,6 @@ double pbisection_search(double umin, double umax, double A_ratio){
 
 
 double S0 = area(x_lower);
-double ustar = bisection_search(0.001, 1, 3);
+double Mstar = bisection_search(0.001, 1, 3);
 
 

@@ -43,32 +43,21 @@ for key,value in dict.items():
 
 
 
-	plt.subplot(511)
+	plt.subplot(411)
 	plt.plot(x_values, y_mach_values, ms=12, label='%s' % key,linewidth=4)
 	plt.ylabel('Mach')
 
-	plt.subplot(512)
+	plt.subplot(412)
 	plt.plot(x_values, y_area_values, ms=12, label='area',linewidth=4)
 	plt.ylabel('Area')
 
-	plt.subplot(513)
+	plt.subplot(413)
 	plt.plot(x_values, y_values, ms=12, label='density',linewidth=4)
 	plt.ylabel('Density')
 
-	plt.subplot(514)
+	plt.subplot(414)
 	plt.plot(x_values, y_pressure_values, ms=12, label='Pressure',linewidth=4)
 	plt.ylabel('Pressure')
-	plt.xlabel('X-Axes')
-
-	x_iter_values = data[data.index('residual_list Start')+1:data.index("residual_list End")]
-	for i in range(0,len(x_iter_values)):
-		x_iter_values[i] = float(x_iter_values[i])
-	y_res_values = data[data.index('iteration_list Start')+1:data.index("iteration_list End")]
-
-	plt.subplot(515)
-	plt.plot(y_res_values, x_iter_values, ms=12, label='Residual',linewidth=4)
-	plt.ylabel('Residual')
-	plt.yscale('log')
 	plt.xlabel('X-Axes')
 
 
@@ -80,33 +69,15 @@ for i in range(0,len(x_analytic_values)):
 y_analytic_values = data[data.index('Mach Start')+1:data.index("Mach End")]
 for i in range(0,len(y_analytic_values)):
 	y_analytic_values[i] = float(y_analytic_values[i])
-#y_row_values = data[data.index('Row Start')+1:data.index("Row End")]
-#for i in range(0,len(y_row_values)):
-#	y_row_values[i] = float(y_row_values[i])
-#y_pressure_values = data[data.index('Pressure Start')+1:data.index("Pressure End")]
-#for i in range(0,len(y_pressure_values)):
-#	y_pressure_values[i] = float(y_pressure_values[i])
 
 
 
-plt.subplot(511)
+
+plt.subplot(411)
 plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
 plt.ylabel('Mach Number')
 plt.legend()
 
-
-#plt.subplot(413)
-#plt.plot(x_values, y_row_values, ms=12, label='analytic',linewidth=4)
-#plt.ylabel('Density')
-
-#plt.subplot(414)
-#plt.plot(x_values, y_pressure_values, ms=12, label='analytic',linewidth=4)
-#plt.ylabel('Pressure')
-
-
-
-
-#plt.axis([0,4,0,1.5])
 
 show()
 
