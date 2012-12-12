@@ -61,14 +61,14 @@ for key,value in dict.items():
 	plt.xlabel('X-Axes')
 
 	x_iter_values = data[data.index('R1 Start')+1:data.index("R1 End")]
-#	x_R2_values = data[data.index('R2 Start')+1:data.index("R2 End")]
-#	x_R3_values = data[data.index('R3 Start')+1:data.index("R3 End")]
+	x_R2_values = data[data.index('R2 Start')+1:data.index("R2 End")]
+	x_R3_values = data[data.index('R3 Start')+1:data.index("R3 End")]
 	y_res_values = data[data.index('iteration_list Start')+1:data.index("iteration_list End")]
 
 	plt.subplot(515)
 	plt.plot(y_res_values, x_iter_values, ms=12, label='R1',linewidth=4)
-#	plt.plot(y_res_values, x_R2_values, ms=12, label='R2',linewidth=4)
-#	plt.plot(y_res_values, x_R3_values, ms=12, label='R3',linewidth=4)
+	plt.plot(y_res_values, x_R2_values, ms=12, label='R2',linewidth=4)
+	plt.plot(y_res_values, x_R3_values, ms=12, label='R3',linewidth=4)
 	plt.ylabel('Residual')
 	plt.yscale('log')
 	plt.legend()
@@ -93,19 +93,19 @@ for i in range(0,len(y_pressure_values)):
 
 y_temperature_values = data[data.index('Temperature Start')+1:data.index("Temperature End")]
 
-plt.subplot(511)
-plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
-plt.ylabel('Mach Number')
-plt.legend()
+#plt.subplot(511)
+#plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
+#plt.ylabel('Mach Number')
+#plt.legend()
 
 
-plt.subplot(513)
-plt.plot(x_values, y_temperature_values, ms=12, label='analytic',linewidth=4)
-plt.ylabel('Temperature')
+#plt.subplot(513)
+#plt.plot(x_analytic_values, y_temperature_values, ms=12, label='analytic',linewidth=4)
+#plt.ylabel('Temperature')
 
-plt.subplot(514)
-plt.plot(x_values, y_pressure_values, ms=12, label='analytic',linewidth=4)
-plt.ylabel('Pressure')
+#plt.subplot(514)
+#plt.plot(x_analytic_values, y_pressure_values, ms=12, label='analytic',linewidth=4)
+#plt.ylabel('Pressure')
 
 
 

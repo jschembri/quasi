@@ -27,10 +27,10 @@ int main(int argc, char **argv){
 	
 	Mach[0] = Mach0;
    for (int i=1; i<=x_spaces; i++){
-		if (i <= x_spaces/2.0){
-			Mach[i] = bisection_search(0, 1.0, areas[i]/A_star);
+		if (Mach[i-1]>=1-0.01){
+			Mach[i] = pbisection_search(1, 10, areas[i]/A_star);
 		}else{
-			Mach[i] = pbisection_search(1.0, 10, areas[i]/A_star);
+			Mach[i] = bisection_search(0, 1.0, areas[i]/A_star);
 		}
 	}
 

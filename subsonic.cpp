@@ -56,7 +56,7 @@ int main(int argc, char **argv){
    double Mach[x_spaces+1];
    double temperature[x_spaces+1];
    double areas[x_spaces+1];
-   double alpha = 200;
+   double alpha;// = 500;
    double FplusHalf,FminusHalf;
 	
 	//solving for u0
@@ -180,6 +180,15 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 	// Finite Volume analysis
 		for (int i=1; i<=x_spaces-1; i++){
 		   for (int j=0; j<=2; j++){
+				if (i <=9){
+					alpha = 20*(i);
+					//alpha = 200;
+				}else if (i<=x_spaces-1 && i>=x_spaces-10){
+					alpha = 20*((x_spaces-1)-i+1);
+					//alpha = 200;
+				}else{
+					alpha = 200;
+				}
 				FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
 				FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
 				Uplus1[i][j] = U[i][j] - delta_t/volumes[i]*(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))+delta_t/volumes[i]*Q[i][j];
@@ -197,7 +206,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 
 		//special condition when i ==0, the first cell (only for supersonic)
 		temperature[0] = T0;
-		double body = 1 -(fluid_gamma-1.0)/(fluid_gamma+1.0)*pow(velocity[0]/aStar,2);
+		double body = 1.0 -(fluid_gamma-1.0)/(fluid_gamma+1.0)*pow(velocity[0]/aStar,2);
 		double exponent = 1.0/(fluid_gamma-1.0); 
 		double deltaP_over_delta_u = Pt*(fluid_gamma/(fluid_gamma-1.0))*pow(body,exponent)*(-2.0*(fluid_gamma-1.0)/(fluid_gamma+1.0)*velocity[0]/pow(aStar,2));
 		double CFL = velocity[0]*delta_t/delta_x;
@@ -205,8 +214,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 		double c1 = pow(fluid_gamma*pressure[1]/row[1],0.5);
 		double delta_t1 = CFL*delta_x /(velocity[0] + c0);
 		double lambda = delta_t1/delta_x*(0.5*(velocity[1]+velocity[0]) - 0.5*(c1+c0));
-		double delta_u = (-lambda*(pressure[1] - pressure[0] - row[0]*c0*(velocity[1] - velocity[0])))/(deltaP_over_delta_u-row[0]*c0)/(1+lambda);
-
+		double delta_u = (-lambda*(pressure[1] - pressure[0] - row[0]*c0*(velocity[1] - velocity[0])))/(deltaP_over_delta_u-row[0]*c0);
 		velocity[0] = velocity[0] + delta_u;
 		temperature[0] = static_temperature(velocity[0]);
 		//temperature[0] = Tt;
@@ -278,12 +286,25 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 	if (iteration % skip ==0){
 		iteration_list[count] = iteration;
 		residual_list[count] = max_residual( temp_Mach,real_Mach, x_spaces+1);
+		residual_R1[count] = max_array(temp1,x_spaces); 
+		residual_R2[count] = max_array(temp2,x_spaces); 
+		residual_R3[count] = max_array(temp3,x_spaces); 
 		count += 1;
 	}
 
 	double zeroes[x_spaces];
 	for (int i=1;i<=x_spaces-1;i++){
 		for (int j=0;j<=2;j++){
+				if (i <=9){
+					alpha = 20*(i);
+					//alpha = 200;
+				}else if (i<=x_spaces-1 && i>=x_spaces-10){
+					alpha = 20*((x_spaces-1)-i+1);
+					//alpha = 200;
+				}else{
+					alpha = 200;
+				}
+
 			FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
 			FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
 			if (j==0){
@@ -296,9 +317,9 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 		}
 		zeroes[i-1] = 0;
 	}
-	residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
-	//residual_R2[iteration] = max_residual(zeroes,temp2,x_spaces); 
-	//residual_R3[iteration] = max_residual(zeroes,temp3,x_spaces); 
+
+	//residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
+	//residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
 
 	iteration += 1;
 	
@@ -329,8 +350,8 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 // printarray (residual_list,max_count, "residual_list");
  printarray (iteration_list,max_count, "iteration_list"); 
  printarray (residual_R1,max_count, "R1");
-// printarray (residual_R2,max_count, "R2");
-// printarray (residual_R3,max_count, "R3");
+ printarray (residual_R2,max_count, "R2");
+ printarray (residual_R3,max_count, "R3");
 
 	//for (int i=0;i<=x_spaces;i++){
 		//cout << "i: " << abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)) << endl;

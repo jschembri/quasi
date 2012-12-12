@@ -12,7 +12,7 @@ double Tt = 500.0;
 //double u0 = 1000;
 double Mach0 = 0.2;
 double Pt = 1000000.0;
-double Pend = 30000;
+double Pend = 700000;
 double fluid_gamma =1.4;
 
 double R = 287.04;
