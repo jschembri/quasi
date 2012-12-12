@@ -10,7 +10,7 @@ using namespace std;
 double Tt = 500.0;
 //double u0 = 129;
 //double u0 = 1000;
-double Mach0 = 0.3;
+double Mach0 = 0.2;
 double Pt = 1000000.0;
 double Pend = 30000;
 double fluid_gamma =1.4;

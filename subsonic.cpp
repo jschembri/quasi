@@ -205,7 +205,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 		double c1 = pow(fluid_gamma*pressure[1]/row[1],0.5);
 		double delta_t1 = CFL*delta_x /(velocity[0] + c0);
 		double lambda = delta_t1/delta_x*(0.5*(velocity[1]+velocity[0]) - 0.5*(c1+c0));
-		double delta_u = (-lambda*(pressure[1] - pressure[0] - row[0]*c0*(velocity[1] - velocity[0])))/(deltaP_over_delta_u-row[0]*c0);
+		double delta_u = (-lambda*(pressure[1] - pressure[0] - row[0]*c0*(velocity[1] - velocity[0])))/(deltaP_over_delta_u-row[0]*c0)/(1+lambda);
 
 		velocity[0] = velocity[0] + delta_u;
 		temperature[0] = static_temperature(velocity[0]);
