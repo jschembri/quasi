@@ -60,7 +60,7 @@ for key,value in dict.items():
 	plt.ylabel('Pressure')
 	plt.xlabel('X-Axes')
 
-	x_iter_values = data[data.index('residual_list Start')+1:data.index("residual_list End")]
+	x_iter_values = data[data.index('Actual Residual Start')+1:data.index("Actual Residual End")]
 	for i in range(0,len(x_iter_values)):
 		x_iter_values[i] = float(x_iter_values[i])
 	y_res_values = data[data.index('iteration_list Start')+1:data.index("iteration_list End")]

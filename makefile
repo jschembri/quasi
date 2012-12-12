@@ -38,6 +38,10 @@ newFlux:
 	$(CXX) $(CXXFLAGS) -c newFlux.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o newFlux newFlux.o constants.o
 
+machineZero:
+	$(CXX) $(CXXFLAGS) -c machine_zero.cpp
+	$(CXX) $(CXXFLAGS) -o machine_zero machine_zero.o
+
 residual:
 	$(CXX) $(CXXFLAGS) -c flux_with_residual.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o flux_with_residual flux_with_residual.o constants.o
