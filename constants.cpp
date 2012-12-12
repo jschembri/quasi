@@ -7,12 +7,17 @@
 
 using namespace std;
 
-double row0 = 3;
+double Tt = 500.0;
 //double u0 = 129;
-double u0 = 1000;
-double P0 = 100000;
-double Pend = 300000;
+//double u0 = 1000;
+double Mach0 = 0.3;
+double Pt = 1000000.0;
+double Pend = 30000;
 double fluid_gamma =1.4;
+
+double R = 287.04;
+double c_v = R / (fluid_gamma -1.0);
+double aStar = pow(2.0*fluid_gamma*((fluid_gamma-1.0)/(fluid_gamma+1.0))*c_v*Tt,0.5);
 
 
 
@@ -21,7 +26,7 @@ double x_lower = 0;
 double x_higher = 10;
 int x_spaces = 100;
 double delta_x = (x_higher - x_lower)/x_spaces;
-double delta_t = 0.0000005; //(in seconds)
+double delta_t = 0.000005; //(in seconds)
 double PI = 3.141592654;
 //double c_v = 718;
 
@@ -195,5 +200,22 @@ double pbisection_search(double umin, double umax, double A_ratio){
 
 double S0 = area(x_lower);
 double Mstart = bisection_search(0.001, 1, 3);
+
+
+double static_pressure( double u){
+	double body = 1.0 - (fluid_gamma-1.0)/(fluid_gamma+1.0)*pow(u/aStar,2);
+	double exponent = (fluid_gamma)/(fluid_gamma-1.0);
+	return Pt*pow(body,exponent);
+}
+
+double static_temperature( double u){
+	double body = 1.0 - (fluid_gamma-1.0)/(fluid_gamma+1.0)*pow(u/aStar,2);
+	double exponent = 1.0;
+	return Tt*pow(body,exponent);
+}
+
+
+
+
 
 

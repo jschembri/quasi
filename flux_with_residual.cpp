@@ -43,15 +43,24 @@ int main(int argc, char **argv){
    double e0, FplusHalf,FminusHalf;
 
 
+
+
+
    double temp_Mach[x_spaces+1];
 	int iteration = 0;
 	int max_iterations = endtime/delta_t;
 	double iteration_list[max_iterations+1];
 	double residual_list[max_iterations+1];
 	//cout << "max_iterations: " <<max_iterations<<endl;
-	double actual_residual[max_iterations+1];
    e0 = P0/(fluid_gamma-1.0) + row0*pow(u0,2)/2.0;
 
+	double temp1[x_spaces];
+	double temp2[x_spaces];
+	double temp3[x_spaces];
+
+	double residual_R1[max_iterations+1];
+	double residual_R2[max_iterations+1];
+	double residual_R3[max_iterations+1];
 
    // Creating x value
    double x_value[x_spaces+2];
@@ -191,23 +200,26 @@ residual_list[iteration] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 	}
 	iteration_list[iteration] = iteration;
 	residual_list[iteration] = max_residual( temp_Mach,real_Mach, x_spaces+1);
-	double the_sum = 0;
-	double the_errors[x_spaces];
+
+
 	double zeroes[x_spaces];
 	for (int i=1;i<=x_spaces;i++){
-		for (int j=0;j<=0;j++){
+		for (int j=0;j<=2;j++){
 			FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
 			FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
-			if (j==1){
- 				the_sum = delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)-Q[i][j]);
-			}else{
- 				the_sum = delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0));
+			if (j==0){
+				temp1[i-1] = (delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))); 
+			}else if(j==1){
+ 				temp2[i-1]  = 0.001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)-Q[i][j]));
+			}else if (j==2){
+ 				temp3[i-1] = 0.00001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)));
 			}
 		}
 		zeroes[i-1] = 0;
-		the_errors[i-1] = the_sum;
 	}
-	actual_residual[iteration] = max_residual(zeroes,the_errors,x_spaces);
+	residual_R1[iteration] = max_residual(zeroes,temp1,x_spaces); 
+	residual_R2[iteration] = max_residual(zeroes,temp2,x_spaces); 
+	residual_R3[iteration] = max_residual(zeroes,temp3,x_spaces); 
 
 	iteration += 1;
 	//end of added code
@@ -237,7 +249,9 @@ for (int i=0; i<=x_spaces; i++){
  //printarray (temp_Mach,x_spaces+1, "temp Mach");
  printarray (residual_list,max_iterations, "residual_list");
  printarray (iteration_list,max_iterations, "iteration_list"); 
- printarray (actual_residual,max_iterations, "Actual Residual");
+ printarray (residual_R1,max_iterations, "R1");
+ printarray (residual_R2,max_iterations, "R2");
+ printarray (residual_R3,max_iterations, "R3");
 
 	//for (int i=0;i<=x_spaces;i++){
 		//cout << "i: " << abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)) << endl;

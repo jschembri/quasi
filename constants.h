@@ -6,17 +6,14 @@ using namespace std;
 extern double delta_x ;
 extern double delta_t;
 
-extern double row0;
 extern double u0;
-extern double e0;
-extern double P0;
+extern double Pt;
+extern double Tt;
 extern double S0;
-extern double Mstart;
-
-extern double rowinf;
-extern double uinf;
-extern double einf;
-extern double Pinf;
+extern double Mach0;
+extern double R;
+extern double c_v;
+extern double aStar;
 extern double Pend;
 extern double fluid_gamma;
 
@@ -36,6 +33,9 @@ double binary_func(double M, double A_ratio);
 double bisection_search(double umin, double umax, double A_ratio);
 double pbisection_search(double umin, double umax, double A_ratio);
 void printarray (double arg[], int length, string input);
+double static_temperature( double u);
+double static_pressure( double u);
+
 //void printMatrix(double U[],int length,int depth);
 
 #endif
