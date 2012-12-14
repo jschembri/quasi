@@ -46,18 +46,17 @@ residual:
 	$(CXX) $(CXXFLAGS) -c flux_with_residual.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o flux_with_residual flux_with_residual.o constants.o
 
-
-read:
-	$(CXX) $(CXXFLAGS) -c read.cpp
-	$(CXX) $(CXXFLAGS) -o read read.o
+Roe:
+	$(CXX) $(CXXFLAGS) -I /home/eigen -c Roe.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -o Roe Roe.o constants.o
 
 pressure:
 	$(CXX) $(CXXFLAGS) -c pressure.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o pressure pressure.o constants.o
 
-read2:
-	$(CXX) $(CXXFLAGS) -c read2.cpp
-	$(CXX) $(CXXFLAGS) -o read2 read2.o
+pressure:
+	$(CXX) $(CXXFLAGS) -c test.cpp 
+	$(CXX) $(CXXFLAGS) -o test test.o 
 
 clean:
 	rm -f quasi
