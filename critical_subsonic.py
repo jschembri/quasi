@@ -41,63 +41,50 @@ for key,value in dict.items():
 		y_mach_values[i] = float(y_mach_values[i])
 
 	y_temperature_values = data[data.index('Temperature Start')+1:data.index("Temperature End")]
+	y_temperature_values = data[data.index('Temperature Start')+1:data.index("Temperature End")]
 
-
-	plt.subplot(511)
-	plt.plot(x_values, y_mach_values, ms=12, label='%s' % key,linewidth=4)
+	plt.subplot(311)
+	plt.plot(x_values, y_mach_values, ms=12, label='Numeric',linewidth=4)
 	plt.ylabel('Mach')
 
-	plt.subplot(512)
+	plt.subplot(312)
 	plt.plot(x_values, y_area_values, ms=12, label='area',linewidth=4)
 	plt.ylabel('Area')
 
-	plt.subplot(513)
-	plt.plot(x_values, y_temperature_values, ms=12, label='temperature',linewidth=4)
-	plt.ylabel('Temperature')
-
-	plt.subplot(514)
-	plt.plot(x_values, y_pressure_values, ms=12, label='Pressure',linewidth=4)
-	plt.ylabel('Pressure')
-	plt.xlabel('X-Axes')
-
-	x_iter_values = data[data.index('R1 Start')+1:data.index("R1 End")]
-	x_R2_values = data[data.index('R2 Start')+1:data.index("R2 End")]
-	x_R3_values = data[data.index('R3 Start')+1:data.index("R3 End")]
-	y_res_values = data[data.index('iteration_list Start')+1:data.index("iteration_list End")]
-
-	plt.subplot(515)
-	plt.plot(y_res_values, x_iter_values, ms=12, label='R1',linewidth=4)
-	plt.plot(y_res_values, x_R2_values, ms=12, label='R2',linewidth=4)
-	plt.plot(y_res_values, x_R3_values, ms=12, label='R3',linewidth=4)
-	plt.ylabel('Residual')
-	plt.yscale('log')
-	plt.legend()
+	plt.subplot(313)
+	plt.plot(x_values, y_values, ms=12, label='Numeric',linewidth=4)
+	plt.ylabel('Density')
 	plt.xlabel('X-Axes')
 
 
-data= subprocess.Popen('./analytic_subsonic', shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()
-data = data[0].split(",")
-x_analytic_values = data[data.index('X Value Start')+1:data.index("X Value End")]
-for i in range(0,len(x_analytic_values)):
-	x_analytic_values[i] = float(x_analytic_values[i])
-y_analytic_values = data[data.index('Mach Start')+1:data.index("Mach End")]
-for i in range(0,len(y_analytic_values)):
-	y_analytic_values[i] = float(y_analytic_values[i])
+#data= subprocess.Popen('./analytic_subsonic', shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()
+#data = data[0].split(",")
+#x_analytic_values = data[data.index('X Value Start')+1:data.index("X Value End")]
+#for i in range(0,len(x_analytic_values)):
+#	x_analytic_values[i] = float(x_analytic_values[i])
+#y_analytic_values = data[data.index('Mach Start')+1:data.index("Mach End")]
+#for i in range(0,len(y_analytic_values)):
+#	y_analytic_values[i] = float(y_analytic_values[i])
 #y_row_values = data[data.index('Row Start')+1:data.index("Row End")]
 #for i in range(0,len(y_row_values)):
 #	y_row_values[i] = float(y_row_values[i])
-y_pressure_values = data[data.index('Pressure Start')+1:data.index("Pressure End")]
-for i in range(0,len(y_pressure_values)):
-	y_pressure_values[i] = float(y_pressure_values[i])
+#y_pressure_values = data[data.index('Pressure Start')+1:data.index("Pressure End")]
+#for i in range(0,len(y_pressure_values)):
+#	y_pressure_values[i] = float(y_pressure_values[i])
 
 
-y_temperature_values = data[data.index('Temperature Start')+1:data.index("Temperature End")]
+#y_temperature_values = data[data.index('Temperature Start')+1:data.index("Temperature End")]
 
-plt.subplot(511)
-plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
-plt.ylabel('Mach Number')
-plt.legend()
+#plt.subplot(311)
+#plt.plot(x_analytic_values, y_analytic_values, ms=12, label="Analytic",linewidth=4)
+#plt.ylabel('Mach Number')
+#plt.legend()
 
+#plt.subplot(313)
+#plt.plot(x_analytic_values, y_row_values, ms=12, label='Analytic',linewidth=4)
+#plt.ylabel('Density')
+#plt.legend()
+#plt.xlabel('X-Axes')
 
 #plt.subplot(513)
 #plt.plot(x_analytic_values, y_temperature_values, ms=12, label='analytic',linewidth=4)

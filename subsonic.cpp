@@ -181,10 +181,10 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 		for (int i=1; i<=x_spaces-1; i++){
 		   for (int j=0; j<=2; j++){
 				if (i <=9){
-					alpha = 20*(i);
+					alpha = 10*(i);
 					//alpha = 200;
 				}else if (i<=x_spaces-1 && i>=x_spaces-10){
-					alpha = 20*((x_spaces-1)-i+1);
+					alpha = 10*((x_spaces-1)-i+1);
 					//alpha = 200;
 				}else{
 					alpha = 200;
@@ -296,10 +296,10 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 	for (int i=1;i<=x_spaces-1;i++){
 		for (int j=0;j<=2;j++){
 				if (i <=9){
-					alpha = 20*(i);
+					alpha = 10*(i);
 					//alpha = 200;
 				}else if (i<=x_spaces-1 && i>=x_spaces-10){
-					alpha = 20*((x_spaces-1)-i+1);
+					alpha = 10*((x_spaces-1)-i+1);
 					//alpha = 200;
 				}else{
 					alpha = 200;
@@ -312,7 +312,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 			}else if(j==1){
  				temp2[i-1]  = 0.001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)-Q[i][j]));
 			}else if (j==2){
- 				temp3[i-1] = 0.00001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)));
+ 				temp3[i-1] = 0.000001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)));
 			}
 		}
 		zeroes[i-1] = 0;
@@ -347,7 +347,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
  printarray (Mach,x_spaces+1, "Mach"); 
  //printarray (real_Mach,x_spaces+1, "Real Mach");
  //printarray (temp_Mach,x_spaces+1, "temp Mach");
-// printarray (residual_list,max_count, "residual_list");
+ printarray (residual_list,max_count, "residual_list");
  printarray (iteration_list,max_count, "iteration_list"); 
  printarray (residual_R1,max_count, "R1");
  printarray (residual_R2,max_count, "R2");

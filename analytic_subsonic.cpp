@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	printarray (x_value,x_spaces+1, "X Value");
 	printarray (areas,x_spaces+1, "Areas");
 	printarray (Mach,x_spaces+1, "Mach");
-	printarray (row,x_spaces+1, "Density");
+	printarray (row,x_spaces+1, "Row");
 	printarray (pressure,x_spaces+1, "Pressure");
 	printarray (temperature,x_spaces+1, "Temperature");
  return 0; 
