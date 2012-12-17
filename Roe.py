@@ -42,6 +42,12 @@ for key,value in dict.items():
 
 	y_temperature_values = data[data.index('Temperature Start')+1:data.index("Temperature End")]
 
+	x_iter_values = data[data.index('R1 Start')+1:data.index("R1 End")]
+	x_R2_values = data[data.index('R2 Start')+1:data.index("R2 End")]
+	x_R3_values = data[data.index('R3 Start')+1:data.index("R3 End")]
+	y_res_values = data[data.index('iteration_list Start')+1:data.index("iteration_list End")]
+
+
 
 	plt.subplot(511)
 	plt.plot(x_values, y_mach_values, ms=12, label='%s' % key,linewidth=4)
@@ -60,19 +66,15 @@ for key,value in dict.items():
 	plt.ylabel('Pressure')
 	plt.xlabel('X-Axes')
 
-#	x_iter_values = data[data.index('R1 Start')+1:data.index("R1 End")]
-#	x_R2_values = data[data.index('R2 Start')+1:data.index("R2 End")]
-#	x_R3_values = data[data.index('R3 Start')+1:data.index("R3 End")]
-#	y_res_values = data[data.index('iteration_list Start')+1:data.index("iteration_list End")]
 
-#	plt.subplot(515)
-#	plt.plot(y_res_values, x_iter_values, ms=12, label='R1',linewidth=4)
-#	plt.plot(y_res_values, x_R2_values, ms=12, label='R2',linewidth=4)
-#	plt.plot(y_res_values, x_R3_values, ms=12, label='R3',linewidth=4)
-#	plt.ylabel('Residual')
-#	plt.yscale('log')
-#	plt.legend()
-#	plt.xlabel('X-Axes')
+	plt.subplot(515)
+	plt.plot(y_res_values, x_iter_values, ms=12, label='R1',linewidth=4)
+	plt.plot(y_res_values, x_R2_values, ms=12, label='R2',linewidth=4)
+	plt.plot(y_res_values, x_R3_values, ms=12, label='R3',linewidth=4)
+	plt.ylabel('Residual')
+	plt.yscale('log')
+	plt.legend()
+	plt.xlabel('X-Axes')
 
 
 data= subprocess.Popen('./analytic_subsonic', shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE,stdin=subprocess.PIPE).communicate()

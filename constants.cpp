@@ -51,16 +51,16 @@ double area(double x){
 }
 */
 
-double area(double x){
-   return 2+cos(2*PI*x/10.0)*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,-10)-delta(x,0))+(delta(x,x_higher+0.000001)-delta(x,20));
-//	//return 3;
-}
+//double area(double x){
+   //return 2+cos(2*PI*x/10.0)*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,-10)-delta(x,0))+(delta(x,x_higher+0.000001)-delta(x,20));
+	//return 3;
+//}
 
-/*
+
 double area(double x){
    return 2+1.0/(x_higher-x_lower)*x*(delta(x,x_lower)-delta(x,x_higher+0.000001)) + (delta(x,x_higher+0.000001)-delta(x,20));
 }
-*/
+
 
 
 

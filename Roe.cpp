@@ -48,6 +48,11 @@ MatrixXd A_flux_matrix(double row, double row_plus1, double velocity, double vel
 	double enthalpy_half = (pow(row,0.5)*(energy+pressure)/row + pow(row_plus1,0.5)*(energy_plus1+pressure_plus1)/row_plus1) / (pow(row,0.5)+pow(row_plus1,0.5));
 	double c_at_i = pow((fluid_gamma-1.0)*(enthalpy_half -0.5*pow(velocity_half,2)),0.5);
 
+	//cout << "Row: " << row << endl;
+	//cout << "Half Row: " << row_half << endl;
+	//cout << "Velocity: " << velocity << endl;
+	//cout << "Velocity Half: " << velocity_half << endl;
+	//cout << "c_at_i: " << c_at_i << endl;
 
 
 	MatrixXd S_matrix(3,3);
@@ -114,16 +119,19 @@ MatrixXd A_flux_matrix(double row, double row_plus1, double velocity, double vel
 	MatrixXd Aplus(3,3);
 	MatrixXd Aminus(3,3);
 	MatrixXd fluxA(3,3);
+	//cout << "S_inverse_matrix :\n" << S_inverse_matrix <<endl;
+	//cout << "SCA_inverse_matrix :\n" << CA_inverse_matrix <<endl;
+	//cout << "lambda_matrix_positi :\n" << lambda_matrix_positive <<endl;
+	//cout << "CA_matrix :\n" << CA_matrix <<endl;
+	//cout << "S_matrix :\n" << S_matrix<<endl;
 
 	Aplus = S_inverse_matrix*CA_inverse_matrix*lambda_matrix_positive*CA_matrix*S_matrix;
 	A = S_inverse_matrix*CA_inverse_matrix*lambda_matrix*CA_matrix*S_matrix;
 	Aminus = A - Aplus;
 	fluxA = Aplus - Aminus;
-
-//	cout << "\n" << A<< endl;
-//	cout << Aplus << endl;
-//	cout << c_at_i << endl;
-
+	//cout << "Aplus: \n" << Aplus << endl;
+	//cout << "Aminus: \n" << Aminus << endl;
+	//cout << "A: \n" << fluxA << endl;
 	return fluxA;
 }
 
@@ -307,14 +315,15 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 
 				Uplus1[i][j] = U[i][j] - delta_t/volumes[i]*(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))+delta_t/volumes[i]*Q[i][j];
 
+			/*
 			if (i ==50){
 				cout << "\n Aplus Half: " << AplusHalf <<endl;
 				cout << "1,2" << AplusHalf(1,2) <<endl;
 				cout << "Aminus Half "<< AminusHalf << endl; 
 				cout << "Alpha1: " << (AplusHalf(j,0)*deltaU(0) +AplusHalf(j,1)*deltaU(1)+AplusHalf(j,2)*deltaU(2)) << endl;
 				cout << "Alpha2: " << (AminusHalf(j,0)*deltaU(0) +AminusHalf(j,1)*deltaU(1)+AminusHalf(j,2)*deltaU(2)) << endl;
-	
 			}
+			*/
 
 			}
 		}
@@ -419,6 +428,8 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 	double zeroes[x_spaces];
 	for (int i=1;i<=x_spaces-1;i++){
 		for (int j=0;j<=2;j++){
+				/*
+
 				if (i <=9){
 					alpha = 10*(i);
 					//alpha = 200;
@@ -428,15 +439,29 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 				}else{
 					alpha = 200;
 				}
+			*/
+				AplusHalf = A_flux_matrix(row[i], row[i+1], velocity[i], velocity[i+1], energy[i], energy[i+1], pressure[i], pressure[i+1]);
+				AminusHalf = A_flux_matrix(row[i-1], row[i], velocity[i-1], velocity[i], energy[i-1], energy[i], pressure[i-1], pressure[i]);
 
-			FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
-			FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
+				deltaU(0) = U[i+1][0] - U[i][0];
+				deltaU(1) = U[i+1][1] - U[i][1];
+				deltaU(2) = U[i+1][2] - U[i][2];
+				FplusHalf = 0.5*(F[i][j] + F[i+1][j]) -0.5*(AplusHalf(j,0)*deltaU(0) +AplusHalf(j,1)*deltaU(1)+AplusHalf(j,2)*deltaU(2));  					
+			
+				deltaU(0) = U[i][0] - U[i-1][0];
+				deltaU(1) = U[i][1] - U[i-1][1];
+				deltaU(2) = U[i][2] - U[i-1][2];
+				FminusHalf = 0.5*(F[i-1][j] + F[i][j]) -0.5*(AminusHalf(j,0)*deltaU(0) +AminusHalf(j,1)*deltaU(1)+AminusHalf(j,2)*deltaU(2)); 
+		
+
+			//FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
+			//FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
 			if (j==0){
 				temp1[i-1] = (delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))); 
 			}else if(j==1){
- 				temp2[i-1]  = 0.001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)-Q[i][j]));
+ 				temp2[i-1]  =(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)-Q[i][j]));
 			}else if (j==2){
- 				temp3[i-1] = 0.000001*(delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)));
+ 				temp3[i-1] = (delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)));
 			}
 		}
 		zeroes[i-1] = 0;
@@ -444,6 +469,9 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 
 	//residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
 	//residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
+	//residual_R1[iteration/skip] = max_array(temp2,x_spaces); 
+	//residual_R2[iteration/skip] = max_array(temp3,x_spaces); 
+
 
 	iteration += 1;
 	
@@ -471,11 +499,16 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
  printarray (Mach,x_spaces+1, "Mach"); 
  //printarray (real_Mach,x_spaces+1, "Real Mach");
  //printarray (temp_Mach,x_spaces+1, "temp Mach");
- //printarray (residual_list,max_count, "residual_list");
- //printarray (iteration_list,max_count, "iteration_list"); 
- //printarray (residual_R1,max_count, "R1");
- //printarray (residual_R2,max_count, "R2");
- //printarray (residual_R3,max_count, "R3");
+// printarray (residual_list,max_count, "residual_list");
+ printarray (iteration_list,max_count, "iteration_list"); 
+ printarray (residual_R1,max_count, "R1");
+ printarray (residual_R2,max_count, "R2");
+ printarray (residual_R3,max_count, "R3");
+
+	//cout << "\n Aplus Half: \n" << AplusHalf <<endl;
+	//cout << "Aminus Half \n"<< AminusHalf << endl; 
+	//cout << "deltaU \n" << deltaU << endl;
+
 
 
 
