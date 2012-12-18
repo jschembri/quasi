@@ -25,6 +25,9 @@ int main(int argc, char **argv){
    double temperature[x_spaces+1];
    double e0, M0,c;
    double x_value[x_spaces+1];
+	double P0 = 100000;
+	double row0 = 2;
+	double u0 = 2000;
 
    e0 = P0/(fluid_gamma-1.0) + row0*pow(u0,2)/2.0;
 	c = pow(fluid_gamma*P0/row0,0.5); 
@@ -67,8 +70,8 @@ int main(int argc, char **argv){
 	printarray (x_value,x_spaces+1, "X Value");
 	printarray (areas,x_spaces+1, "Areas");
 	printarray (Mach,x_spaces+1, "Mach");
-//	printarray (row,x_spaces+1, "Row");
-//	printarray (pressure,x_spaces+1, "Pressure");
+	printarray (row,x_spaces+1, "Row");
+	printarray (pressure,x_spaces+1, "Pressure");
 
  return 0; 
 
