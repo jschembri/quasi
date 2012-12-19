@@ -286,7 +286,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 
 			//ended code for Roe Scheme
 
-
+			
 		   for (int j=0; j<=2; j++){
 				if (i <=9){
 					alpha = 10*(i);
@@ -299,21 +299,18 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 					FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
 					//alpha = 200;
 				}else{
+					AplusHalf = A_flux_matrix(row[i], row[i+1], velocity[i], velocity[i+1], energy[i], energy[i+1], pressure[i], pressure[i+1]);
+					AminusHalf = A_flux_matrix(row[i-1], row[i], velocity[i-1], velocity[i], energy[i-1], energy[i], pressure[i-1], pressure[i]);
 
-
-
-				AplusHalf = A_flux_matrix(row[i], row[i+1], velocity[i], velocity[i+1], energy[i], energy[i+1], pressure[i], pressure[i+1]);
-				AminusHalf = A_flux_matrix(row[i-1], row[i], velocity[i-1], velocity[i], energy[i-1], energy[i], pressure[i-1], pressure[i]);
-
-				deltaU(0) = U[i+1][0] - U[i][0];
-				deltaU(1) = U[i+1][1] - U[i][1];
-				deltaU(2) = U[i+1][2] - U[i][2];
-				FplusHalf = 0.5*(F[i][j] + F[i+1][j]) -0.5*(AplusHalf(j,0)*deltaU(0) +AplusHalf(j,1)*deltaU(1)+AplusHalf(j,2)*deltaU(2));  					
+					deltaU(0) = U[i+1][0] - U[i][0];
+					deltaU(1) = U[i+1][1] - U[i][1];
+					deltaU(2) = U[i+1][2] - U[i][2];
+					FplusHalf = 0.5*(F[i][j] + F[i+1][j]) -0.5*(AplusHalf(j,0)*deltaU(0) +AplusHalf(j,1)*deltaU(1)+AplusHalf(j,2)*deltaU(2));  					
 			
-				deltaU(0) = U[i][0] - U[i-1][0];
-				deltaU(1) = U[i][1] - U[i-1][1];
-				deltaU(2) = U[i][2] - U[i-1][2];
-				FminusHalf = 0.5*(F[i-1][j] + F[i][j]) -0.5*(AminusHalf(j,0)*deltaU(0) +AminusHalf(j,1)*deltaU(1)+AminusHalf(j,2)*deltaU(2)); 
+					deltaU(0) = U[i][0] - U[i-1][0];
+					deltaU(1) = U[i][1] - U[i-1][1];
+					deltaU(2) = U[i][2] - U[i-1][2];
+					FminusHalf = 0.5*(F[i-1][j] + F[i][j]) -0.5*(AminusHalf(j,0)*deltaU(0) +AminusHalf(j,1)*deltaU(1)+AminusHalf(j,2)*deltaU(2)); 
 				}
 
 				Uplus1[i][j] = U[i][j] - delta_t/volumes[i]*(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0))+delta_t/volumes[i]*Q[i][j];
@@ -402,18 +399,7 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 		//end of exit boundary conditions
 
 
-		for(int i=0;i<=x_spaces;i++){
-			for(int j=0; j<=2;j++){
-				U[i][j] = Uplus1[i][j];	
 
-				F[i][0] = row[i]*velocity[i];
-				F[i][1] = row[i]*pow(velocity[i],2) + pressure[i];
-				F[i][2] = (energy[i]+pressure[i])*velocity[i];
-				Q[i][0] = 0;
-				Q[i][1] = pressure[i]*(area(x_value[i] + delta_x/2.0) - area(x_value[i] - delta_x/2.0)); 
-				Q[i][2] = 0;
-			}
-		}
 
 	//added code
 	for (int k=0; k<=x_spaces; k++){
@@ -432,29 +418,30 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 	for (int i=1;i<=x_spaces-1;i++){
 		for (int j=0;j<=2;j++){
 				/*
-
 				if (i <=9){
 					alpha = 10*(i);
 					//alpha = 200;
+					FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
+					FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
 				}else if (i<=x_spaces-1 && i>=x_spaces-10){
 					alpha = 10*((x_spaces-1)-i+1);
+					FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
+					FminusHalf = 0.5*(F[i-1][j] + F[i][j])-0.5*alpha*(U[i][j]-U[i-1][j]);
 					//alpha = 200;
 				}else{
-					alpha = 200;
-				}
-			*/
-				AplusHalf = A_flux_matrix(row[i], row[i+1], velocity[i], velocity[i+1], energy[i], energy[i+1], pressure[i], pressure[i+1]);
-				AminusHalf = A_flux_matrix(row[i-1], row[i], velocity[i-1], velocity[i], energy[i-1], energy[i], pressure[i-1], pressure[i]);
+					AplusHalf = A_flux_matrix(row[i], row[i+1], velocity[i], velocity[i+1], energy[i], energy[i+1], pressure[i], pressure[i+1]);
+					AminusHalf = A_flux_matrix(row[i-1], row[i], velocity[i-1], velocity[i], energy[i-1], energy[i], pressure[i-1], pressure[i]);
 
-				deltaU(0) = U[i+1][0] - U[i][0];
-				deltaU(1) = U[i+1][1] - U[i][1];
-				deltaU(2) = U[i+1][2] - U[i][2];
-				FplusHalf = 0.5*(F[i][j] + F[i+1][j]) -0.5*(AplusHalf(j,0)*deltaU(0) +AplusHalf(j,1)*deltaU(1)+AplusHalf(j,2)*deltaU(2));  					
+					deltaU(0) = U[i+1][0] - U[i][0];
+					deltaU(1) = U[i+1][1] - U[i][1];
+					deltaU(2) = U[i+1][2] - U[i][2];
+					FplusHalf = 0.5*(F[i][j] + F[i+1][j]) -0.5*(AplusHalf(j,0)*deltaU(0) +AplusHalf(j,1)*deltaU(1)+AplusHalf(j,2)*deltaU(2));  					
 			
-				deltaU(0) = U[i][0] - U[i-1][0];
-				deltaU(1) = U[i][1] - U[i-1][1];
-				deltaU(2) = U[i][2] - U[i-1][2];
-				FminusHalf = 0.5*(F[i-1][j] + F[i][j]) -0.5*(AminusHalf(j,0)*deltaU(0) +AminusHalf(j,1)*deltaU(1)+AminusHalf(j,2)*deltaU(2)); 
+					deltaU(0) = U[i][0] - U[i-1][0];
+					deltaU(1) = U[i][1] - U[i-1][1];
+					deltaU(2) = U[i][2] - U[i-1][2];
+					FminusHalf = 0.5*(F[i-1][j] + F[i][j]) -0.5*(AminusHalf(j,0)*deltaU(0) +AminusHalf(j,1)*deltaU(1)+AminusHalf(j,2)*deltaU(2)); 
+				}
 		
 
 			//FplusHalf = 0.5*(F[i][j] + F[i+1][j])-0.5*alpha*(U[i+1][j]-U[i][j]);
@@ -466,19 +453,41 @@ residual_list[count] = max_residual(temp_Mach, real_Mach,x_spaces+1);
 			}else if (j==2){
  				temp3[i-1] = (delta_t/volumes[i]*abs(FplusHalf*area(x_value[i]+delta_x/2.0)- FminusHalf*area(x_value[i] -delta_x/2.0)));
 			}
+*/
+			if (j==0){
+				temp1[i-1] = U[i][j] - Uplus1[i][j]; 
+			}else if(j==1){
+ 				temp2[i-1] = U[i][j] - Uplus1[i][j]; 
+			}else if (j==2){
+ 				temp3[i-1] = U[i][j] - Uplus1[i][j]; 
+			}
+
 		}
 		zeroes[i-1] = 0;
 	}
 
 	//residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
-	//residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
-	//residual_R1[iteration/skip] = max_array(temp2,x_spaces); 
-	//residual_R2[iteration/skip] = max_array(temp3,x_spaces); 
+	residual_R1[iteration/skip] = max_array(temp1,x_spaces); 
+	residual_R1[iteration/skip] = max_array(temp2,x_spaces); 
+	residual_R2[iteration/skip] = max_array(temp3,x_spaces); 
 
 
 	iteration += 1;
 	
 	//end of added code
+		for(int i=0;i<=x_spaces;i++){
+			for(int j=0; j<=2;j++){
+				U[i][j] = Uplus1[i][j];	
+
+				F[i][0] = row[i]*velocity[i];
+				F[i][1] = row[i]*pow(velocity[i],2) + pressure[i];
+				F[i][2] = (energy[i]+pressure[i])*velocity[i];
+				Q[i][0] = 0;
+				Q[i][1] = pressure[i]*(area(x_value[i] + delta_x/2.0) - area(x_value[i] - delta_x/2.0)); 
+				Q[i][2] = 0;
+			}
+		}
+
 		time += delta_t;
 	}
 

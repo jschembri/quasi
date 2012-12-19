@@ -47,14 +47,14 @@ residual:
 	$(CXX) $(CXXFLAGS) -o flux_with_residual flux_with_residual.o constants.o
 
 Roe:
-#	$(CXX) $(CXXFLAGS) -I /usr/local/include/eigen/ -c Roe.cpp constants.cpp
-	$(CXX) $(CXXFLAGS) -I /home/numericalMethods/eigen/ -c Roe.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -I /usr/local/include/eigen/ -c Roe.cpp constants.cpp
+#	$(CXX) $(CXXFLAGS) -I /home/numericalMethods/eigen/ -c Roe.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o Roe Roe.o constants.o
 
 
 Roe_supersonic:
-#	$(CXX) $(CXXFLAGS) -I /usr/local/include/eigen/ -c Roe.cpp constants.cpp
-	$(CXX) $(CXXFLAGS) -I /home/numericalMethods/eigen/ -c Roe_supersonic.cpp constants.cpp
+	$(CXX) $(CXXFLAGS) -I /usr/local/include/eigen/ -c Roe.cpp constants.cpp
+#	$(CXX) $(CXXFLAGS) -I /home/numericalMethods/eigen/ -c Roe_supersonic.cpp constants.cpp
 	$(CXX) $(CXXFLAGS) -o Roe_supersonic Roe_supersonic.o constants.o
 
 pressure:
